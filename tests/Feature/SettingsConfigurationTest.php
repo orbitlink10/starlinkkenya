@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class SettingsConfigurationTest extends TestCase
@@ -37,5 +38,18 @@ class SettingsConfigurationTest extends TestCase
         $response->assertSee('name="whatsapp_phone"', false);
         $response->assertSee('value="254733444555"', false);
         $response->assertSee('https://wa.me/254733444555', false);
+    }
+
+    public function test_settings_page_falls_back_when_site_settings_table_is_missing(): void
+    {
+        Schema::dropIfExists('site_settings');
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('admin.section', ['section' => 'settings']));
+
+        $response->assertOk();
+        $response->assertSee('name="whatsapp_phone"', false);
+        $response->assertSee('value="254700123456"', false);
     }
 }

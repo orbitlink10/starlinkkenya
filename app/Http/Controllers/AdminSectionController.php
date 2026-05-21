@@ -253,6 +253,13 @@ class AdminSectionController extends Controller
 
         $whatsappPhone = preg_replace('/\D+/', '', (string) $validated['whatsapp_phone']) ?: '';
 
+        if (! SiteSetting::tableExists()) {
+            return redirect()
+                ->route('admin.section', ['section' => 'settings'])
+                ->withErrors(['whatsapp_phone' => 'Run the latest database migration to enable site settings.'])
+                ->withInput();
+        }
+
         SiteSetting::setValue('whatsapp_phone', $whatsappPhone);
         Config::set('seo.whatsapp_phone', $whatsappPhone);
 

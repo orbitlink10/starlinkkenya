@@ -249,7 +249,7 @@
             margin-top: 28px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
@@ -290,12 +290,12 @@
         .qty-wrap {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .qty-wrap input {
-            width: 108px;
+            width: 96px;
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px 14px;

@@ -24,7 +24,7 @@
         .cart-title {
             margin: 0;
             color: #051833;
-            font-size: clamp(38px, 3vw, 48px);
+            font-size: clamp(30px, 2.4vw, 40px);
             line-height: 1.08;
             font-weight: 800;
             letter-spacing: 0;
@@ -33,7 +33,7 @@
         .cart-copy {
             margin: 12px 0 0;
             color: #52627a;
-            font-size: 24px;
+            font-size: 17px;
             line-height: 1.35;
         }
 
@@ -46,7 +46,7 @@
             background: #fff;
             color: #07162d;
             padding: 12px 22px;
-            font-size: 26px;
+            font-size: 16px;
             font-weight: 600;
             box-shadow: 0 10px 28px rgba(16, 35, 62, 0.04);
         }
@@ -102,7 +102,7 @@
         .cart-item-name {
             margin: 0;
             color: #051833;
-            font-size: 24px;
+            font-size: 19px;
             line-height: 1.22;
             font-weight: 800;
             letter-spacing: 0;
@@ -111,7 +111,7 @@
         .cart-item-price {
             margin: 12px 0 0;
             color: #5b6c86;
-            font-size: 22px;
+            font-size: 16px;
         }
 
         .qty-controls {
@@ -139,7 +139,7 @@
             width: 54px;
             height: 54px;
             border-radius: 14px;
-            font-size: 30px;
+            font-size: 22px;
             font-weight: 900;
             line-height: 1;
             cursor: pointer;
@@ -149,14 +149,14 @@
             width: 108px;
             height: 56px;
             border-radius: 14px;
-            font-size: 23px;
+            font-size: 18px;
             font-weight: 500;
         }
 
         .cart-item-total {
             min-width: 190px;
             color: #03142c;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 900;
             text-align: right;
             white-space: nowrap;
@@ -169,7 +169,7 @@
             border-radius: 14px;
             background: #e8314a;
             color: #fff;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
         }
 
@@ -180,7 +180,7 @@
         .summary-title {
             margin: 0 0 26px;
             color: #111927;
-            font-size: 36px;
+            font-size: 28px;
             line-height: 1.12;
             font-weight: 800;
             letter-spacing: 0;
@@ -192,7 +192,7 @@
             justify-content: space-between;
             gap: 18px;
             color: #55627a;
-            font-size: 25px;
+            font-size: 18px;
             line-height: 1.35;
         }
 
@@ -219,7 +219,7 @@
             background: linear-gradient(135deg, #ff8a1f 0%, #ffb144 100%);
             color: #fff;
             padding: 15px 20px;
-            font-size: 26px;
+            font-size: 18px;
             font-weight: 800;
             cursor: pointer;
         }
@@ -233,7 +233,7 @@
             margin: 20px 0 0;
             color: #8fa0bb;
             text-align: center;
-            font-size: 22px;
+            font-size: 16px;
             line-height: 1.35;
         }
 
@@ -243,7 +243,7 @@
             background: #fff;
             padding: 30px;
             color: #52627a;
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .checkout-modal {
@@ -282,7 +282,7 @@
         .modal-title {
             margin: 0;
             color: #111927;
-            font-size: 30px;
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: 0;
         }
@@ -291,7 +291,7 @@
             border: 0;
             background: transparent;
             color: #54585f;
-            font-size: 34px;
+            font-size: 28px;
             line-height: 1;
             cursor: pointer;
         }
@@ -304,14 +304,14 @@
         .signin-copy {
             margin: 0;
             color: #202837;
-            font-size: 24px;
+            font-size: 17px;
         }
 
         .signin-link {
             display: inline-flex;
             margin-top: 28px;
             color: #0050a8;
-            font-size: 25px;
+            font-size: 17px;
             font-weight: 700;
             text-decoration: underline;
             text-underline-offset: 4px;
@@ -329,7 +329,7 @@
             border-radius: 7px;
             padding: 14px 18px;
             color: #172033;
-            font-size: 24px;
+            font-size: 16px;
             outline: none;
         }
 
@@ -340,7 +340,7 @@
             background: #a15b0f;
             color: #fff;
             padding: 16px 20px;
-            font-size: 24px;
+            font-size: 17px;
             font-weight: 800;
             cursor: pointer;
         }

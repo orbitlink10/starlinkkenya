@@ -24,12 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (Schema::hasTable('site_settings')) {
-            $whatsappPhone = SiteSetting::value('whatsapp_phone');
+        $whatsappPhone = SiteSetting::value('whatsapp_phone');
 
-            if ($whatsappPhone) {
-                Config::set('seo.whatsapp_phone', $whatsappPhone);
-            }
+        if ($whatsappPhone) {
+            Config::set('seo.whatsapp_phone', $whatsappPhone);
         }
 
         View::composer('*', function ($view): void {
