@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountCreatedMail;
 use App\Models\Order;
 use App\Models\User;
 use App\Support\SeoData;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class CustomerAccountController extends Controller
@@ -29,6 +31,8 @@ class CustomerAccountController extends Controller
             'last_login_at' => now(),
         ]);
 
+        Mail::to($user->email)->send(new AccountCreatedMail($user));
+
         Auth::login($user);
         $request->session()->regenerate();
 
@@ -39,7 +43,7 @@ class CustomerAccountController extends Controller
         }
 
         return redirect()
-            ->route('account.checkout')
+            ->route('account.dashboard')
             ->with('success', 'Account created. Choose M-Pesa payment or WhatsApp order confirmation.');
     }
 

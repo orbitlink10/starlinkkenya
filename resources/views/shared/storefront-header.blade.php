@@ -2,8 +2,7 @@
     $searchValue = $searchValue ?? '';
     $rootBaseUrl = request()->getSchemeAndHttpHost();
     $loginEntryUrl = $rootBaseUrl.'/login.php';
-    $dashboardEntryUrl = $rootBaseUrl.'/dashboard.php';
-    $accountUrl = auth()->check() ? $dashboardEntryUrl : $loginEntryUrl;
+    $accountUrl = auth()->check() ? route('account.dashboard') : $loginEntryUrl;
     $phoneNumber = (string) config('seo.phone', '+254701299299');
     $phoneHref = 'tel:'.preg_replace('/\D+/', '', $phoneNumber);
     $whatsappPhone = (string) config('seo.whatsapp_phone', '254700123456');

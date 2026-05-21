@@ -39,7 +39,7 @@
 
         $rootBaseUrl = request()->getSchemeAndHttpHost();
         $loginEntryUrl = $rootBaseUrl.'/login.php';
-        $dashboardEntryUrl = $rootBaseUrl.'/dashboard.php';
+        $accountEntryUrl = auth()->check() ? route('account.dashboard') : $loginEntryUrl;
         $homeNavigationMenu = collect($siteNavigationMenu ?? \App\Models\HomepageContent::defaultNavigationMenu())
             ->map(function (array $item): array {
                 $href = trim((string) ($item['href'] ?? ''));
@@ -1834,7 +1834,7 @@
                         <a class="header-icon" href="{{ $primaryPhoneHref }}" aria-label="Call {{ $primaryPhone }}">
                             <i class="fa-solid fa-phone"></i>
                         </a>
-                        <a class="header-icon chevron-icon" href="{{ auth()->check() ? $dashboardEntryUrl : $loginEntryUrl }}" aria-label="Account menu">
+                        <a class="header-icon chevron-icon" href="{{ $accountEntryUrl }}" aria-label="Account menu">
                             <i class="fa-solid fa-chevron-down"></i>
                         </a>
                     </div>

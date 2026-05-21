@@ -47,4 +47,9 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return strcasecmp($this->email, (string) config('auth.admin_email', 'admin@demo.com')) === 0;
+    }
 }

@@ -34,6 +34,7 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/account', [CustomerAccountController::class, 'checkout'])->name('account.dashboard');
     Route::get('/account/checkout', [CustomerAccountController::class, 'checkout'])->name('account.checkout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

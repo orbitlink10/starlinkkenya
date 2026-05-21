@@ -18,6 +18,8 @@ return [
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
+    'admin_email' => env('ADMIN_EMAIL', 'admin@demo.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

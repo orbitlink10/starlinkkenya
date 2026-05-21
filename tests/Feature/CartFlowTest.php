@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Mail\AccountCreatedMail;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class CartFlowTest extends TestCase
@@ -101,6 +103,8 @@ class CartFlowTest extends TestCase
 
     public function test_cart_registration_creates_account_order_and_redirects_to_account_checkout(): void
     {
+        Mail::fake();
+
         $product = Product::query()->create([
             'name' => 'Starlink Gen 3 Kit',
             'slug' => 'starlink-gen-3-kit',
@@ -132,7 +136,7 @@ class CartFlowTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect(route('account.checkout'));
+        $response->assertRedirect(route('account.dashboard'));
         $this->assertAuthenticated();
         $this->assertDatabaseHas(User::class, [
             'name' => 'Jane Buyer',
@@ -145,10 +149,18 @@ class CartFlowTest extends TestCase
             'amount' => 100000,
             'status' => 'pending',
         ]);
+        Mail::assertSent(AccountCreatedMail::class, function (AccountCreatedMail $mail): bool {
+            return $mail->hasTo('jane@example.com')
+                && $mail->user->email === 'jane@example.com'
+                && $mail->user->name === 'Jane Buyer';
+        });
 
         $checkout = $this->get(route('account.checkout'));
         $checkout->assertOk();
         $checkout->assertSeeText('Pay with M-Pesa');
         $checkout->assertSeeText('Order via WhatsApp');
+
+        $adminDashboard = $this->get(route('dashboard.shortcut'));
+        $adminDashboard->assertRedirect(route('account.dashboard'));
     }
 }

@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function showLogin(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->to($request->getSchemeAndHttpHost().'/dashboard.php');
+            return $this->authenticatedRedirect($request);
         }
 
         return view('auth.login', [
@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended($request->getSchemeAndHttpHost().'/dashboard.php');
+        return redirect()->intended($this->authenticatedUrl($request));
     }
 
     public function logout(Request $request): RedirectResponse
@@ -51,5 +51,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->to($request->getSchemeAndHttpHost().'/login.php');
+    }
+
+    private function authenticatedRedirect(Request $request): RedirectResponse
+    {
+        return redirect()->to($this->authenticatedUrl($request));
+    }
+
+    private function authenticatedUrl(Request $request): string
+    {
+        if (Auth::user()?->isAdmin()) {
+            return $request->getSchemeAndHttpHost().'/dashboard.php';
+        }
+
+        return route('account.dashboard');
     }
 }

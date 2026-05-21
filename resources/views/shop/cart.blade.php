@@ -507,7 +507,7 @@
                     </div>
 
                     @auth
-                        <a class="checkout-btn" href="{{ route('account.checkout') }}" @if($items->isEmpty()) aria-disabled="true" @endif>Proceed to Checkout</a>
+                        <a class="checkout-btn" href="{{ route('account.dashboard') }}" @if($items->isEmpty()) aria-disabled="true" @endif>Proceed to Checkout</a>
                     @else
                         <button class="checkout-btn" type="button" data-open-checkout @disabled($items->isEmpty())>Proceed to Checkout</button>
                     @endauth
@@ -527,7 +527,7 @@
 
             <div class="modal-body">
                 <p class="signin-copy">Already have an account?</p>
-                <a class="signin-link" href="{{ route('account.checkout') }}">Sign In Here</a>
+                <a class="signin-link" href="{{ route('account.dashboard') }}">Sign In Here</a>
 
                 <form class="checkout-form" method="POST" action="{{ route('shop.cart.register') }}">
                     @csrf
