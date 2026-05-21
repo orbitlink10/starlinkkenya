@@ -212,14 +212,17 @@
         }
 
         .checkout-btn {
-            width: 100%;
+            width: min(100%, 420px);
+            display: flex;
+            justify-content: center;
+            margin-inline: auto;
             margin-top: 26px;
             border: 0;
             border-radius: 999px;
             background: linear-gradient(135deg, #ff8a1f 0%, #ffb144 100%);
             color: #fff;
-            padding: 15px 20px;
-            font-size: 18px;
+            padding: 12px 18px;
+            font-size: 16px;
             font-weight: 800;
             cursor: pointer;
         }
