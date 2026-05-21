@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -94,5 +96,58 @@ class CartFlowTest extends TestCase
 
         $response->assertRedirect(route('shop.cart.index'));
         $this->assertSame(3, session('cart')[(string) $product->id]['quantity']);
+    }
+
+    public function test_cart_registration_creates_account_order_and_redirects_to_account_checkout(): void
+    {
+        $product = Product::query()->create([
+            'name' => 'Starlink Gen 3 Kit',
+            'slug' => 'starlink-gen-3-kit',
+            'price' => 50000,
+            'stock' => 10,
+            'quantity' => 10,
+            'is_active' => true,
+        ]);
+
+        $this->withSession([
+            'cart' => [
+                (string) $product->id => [
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'slug' => $product->slug,
+                    'price' => 50000,
+                    'quantity' => 2,
+                    'image_path' => null,
+                ],
+            ],
+        ]);
+
+        $response = $this->post(route('shop.cart.register'), [
+            'first_name' => 'Jane',
+            'last_name' => 'Buyer',
+            'phone' => '0712345678',
+            'email' => 'jane@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('account.checkout'));
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas(User::class, [
+            'name' => 'Jane Buyer',
+            'email' => 'jane@example.com',
+        ]);
+        $this->assertDatabaseHas(Order::class, [
+            'customer_name' => 'Jane Buyer',
+            'customer_email' => 'jane@example.com',
+            'phone' => '0712345678',
+            'amount' => 100000,
+            'status' => 'pending',
+        ]);
+
+        $checkout = $this->get(route('account.checkout'));
+        $checkout->assertOk();
+        $checkout->assertSeeText('Pay with M-Pesa');
+        $checkout->assertSeeText('Order via WhatsApp');
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminContentController;
 use App\Http\Controllers\AdminSectionController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\CustomerAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MediaController;
@@ -21,6 +22,7 @@ Route::get('/product/{product}/whatsapp', [ShopController::class, 'redirectToPro
 Route::post('/cart/{product}', [ShopController::class, 'addToCart'])->name('shop.cart.add');
 Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart.index');
 Route::get('/cart/checkout/whatsapp', [ShopController::class, 'redirectToCartWhatsapp'])->name('shop.cart.whatsapp');
+Route::post('/cart/checkout/register', [CustomerAccountController::class, 'registerFromCart'])->name('shop.cart.register');
 Route::patch('/cart/{product}', [ShopController::class, 'updateCart'])->name('shop.cart.update');
 Route::delete('/cart/{product}', [ShopController::class, 'removeFromCart'])->name('shop.cart.remove');
 
@@ -32,6 +34,8 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/account/checkout', [CustomerAccountController::class, 'checkout'])->name('account.checkout');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard.php', [DashboardController::class, 'index'])->name('dashboard.shortcut');
     Route::get('/admin/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');

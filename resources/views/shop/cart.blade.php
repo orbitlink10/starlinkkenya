@@ -436,6 +436,10 @@
                 <div class="flash">{{ session('success') }}</div>
             @endif
 
+            @if ($errors->any())
+                <div class="flash">{{ $errors->first() }}</div>
+            @endif
+
             <section class="cart-layout">
                 <div class="cart-items">
                     @forelse ($items as $item)
@@ -502,7 +506,11 @@
                         <span>KSh {{ number_format($total, 2) }}</span>
                     </div>
 
-                    <button class="checkout-btn" type="button" data-open-checkout @disabled($items->isEmpty())>Proceed to Checkout</button>
+                    @auth
+                        <a class="checkout-btn" href="{{ route('account.checkout') }}" @if($items->isEmpty()) aria-disabled="true" @endif>Proceed to Checkout</a>
+                    @else
+                        <button class="checkout-btn" type="button" data-open-checkout @disabled($items->isEmpty())>Proceed to Checkout</button>
+                    @endauth
 
                     <p class="summary-note">Secure checkout and quick delivery options available.</p>
                 </aside>
@@ -519,13 +527,14 @@
 
             <div class="modal-body">
                 <p class="signin-copy">Already have an account?</p>
-                <a class="signin-link" href="{{ route('login') }}">Sign In Here</a>
+                <a class="signin-link" href="{{ route('account.checkout') }}">Sign In Here</a>
 
-                <form class="checkout-form" method="GET" action="{{ $checkoutWhatsappUrl }}" target="_blank">
-                    <input class="checkout-field" name="first_name" type="text" placeholder="First Name" autocomplete="given-name" required>
-                    <input class="checkout-field" name="last_name" type="text" placeholder="Last Name" autocomplete="family-name" required>
-                    <input class="checkout-field" name="phone" type="tel" placeholder="Phone Number" autocomplete="tel" required>
-                    <input class="checkout-field" name="email" type="email" placeholder="Email" autocomplete="email" required>
+                <form class="checkout-form" method="POST" action="{{ route('shop.cart.register') }}">
+                    @csrf
+                    <input class="checkout-field" name="first_name" type="text" placeholder="First Name" value="{{ old('first_name') }}" autocomplete="given-name" required>
+                    <input class="checkout-field" name="last_name" type="text" placeholder="Last Name" value="{{ old('last_name') }}" autocomplete="family-name" required>
+                    <input class="checkout-field" name="phone" type="tel" placeholder="Phone Number" value="{{ old('phone') }}" autocomplete="tel" required>
+                    <input class="checkout-field" name="email" type="email" placeholder="Email" value="{{ old('email') }}" autocomplete="email" required>
                     <input class="checkout-field" name="password" type="password" placeholder="Password" autocomplete="new-password" required>
                     <input class="checkout-field" name="password_confirmation" type="password" placeholder="Confirm Password" autocomplete="new-password" required>
 
