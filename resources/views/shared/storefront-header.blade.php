@@ -175,59 +175,109 @@
 
         @media (max-width: 980px) {
             .storefront-header__inner {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr) auto;
                 justify-items: stretch;
                 gap: 18px;
             }
 
-            .storefront-brand,
+            .storefront-brand {
+                min-width: 0;
+                justify-self: start;
+            }
+
+            .storefront-search {
+                grid-column: 1 / -1;
+                grid-row: 2;
+            }
+
             .storefront-actions {
-                justify-self: center;
+                justify-self: end;
             }
         }
 
         @media (max-width: 760px) {
+            .storefront-header {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                box-shadow: 0 8px 18px rgba(14, 37, 79, 0.06);
+            }
+
             .storefront-header__inner {
-                width: min(1400px, 94vw);
-                padding: 14px 0 18px;
+                width: min(1400px, calc(100vw - 24px));
+                min-height: auto;
+                gap: 9px 10px;
+                padding: 8px 0 10px;
+            }
+
+            .storefront-brand {
+                gap: 10px;
             }
 
             .storefront-brand__mark {
-                width: 54px;
-                height: 54px;
-                border-radius: 16px;
-                font-size: 24px;
+                width: 42px;
+                height: 42px;
+                border-radius: 14px;
+                font-size: 20px;
             }
 
             .storefront-brand__text strong {
-                font-size: 22px;
+                font-size: 19px;
             }
 
             .storefront-brand__text small {
-                font-size: 10px;
-                letter-spacing: .2em;
+                margin-top: 4px;
+                font-size: 8px;
+                letter-spacing: .14em;
             }
 
             .storefront-search {
-                border-radius: 22px;
+                grid-column: 1 / -1;
+                grid-row: 2;
+                border-radius: 18px;
+                box-shadow: 0 10px 22px rgba(14, 37, 79, 0.06);
             }
 
             .storefront-search input {
-                height: 60px;
-                padding: 0 18px;
-                font-size: 15px;
+                height: 50px;
+                padding: 0 14px;
+                font-size: 14px;
             }
 
             .storefront-search button {
-                min-width: 64px;
-                padding: 0 18px;
+                min-width: 52px;
+                padding: 0 14px;
+            }
+
+            .storefront-actions {
+                gap: 7px;
+                justify-self: end;
             }
 
             .storefront-icon,
             .storefront-icon--chevron {
-                width: 44px;
-                height: 44px;
-                border-radius: 16px;
+                width: 40px;
+                height: 40px;
+                border-radius: 14px;
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .storefront-brand__text strong {
+                font-size: 18px;
+            }
+
+            .storefront-brand__text small {
+                font-size: 7px;
+            }
+
+            .storefront-icon,
+            .storefront-icon--chevron {
+                width: 38px;
+                height: 38px;
+                border-radius: 13px;
+                font-size: 16px;
             }
         }
     </style>
