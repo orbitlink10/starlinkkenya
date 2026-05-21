@@ -252,7 +252,7 @@
             flex-wrap: wrap;
         }
 
-        .btn {
+        .product-action-btn {
             border: none;
             border-radius: 999px;
             padding: 15px 24px;
@@ -265,13 +265,19 @@
             box-shadow: 0 14px 28px rgba(14, 37, 79, 0.08);
         }
 
+        .product-action-btn:hover {
+            transform: translateY(-1px);
+        }
+
         .btn-whatsapp {
             background: #21b463;
             color: #fff;
         }
 
         .btn-cart {
-            background: linear-gradient(135deg, var(--brand) 0%, #ffae42 100%);
+            min-width: 186px;
+            justify-content: center;
+            background: linear-gradient(135deg, #f58d19 0%, #ffae42 100%);
             color: #fff;
             box-shadow: 0 12px 24px rgba(245, 141, 25, .22);
         }
@@ -369,7 +375,7 @@
                     </div>
 
                     <div class="actions">
-                        <a class="btn btn-whatsapp" href="{{ route('shop.product.whatsapp', $product) }}" target="_blank" rel="noopener">
+                        <a class="product-action-btn btn-whatsapp" href="{{ route('shop.product.whatsapp', $product) }}" target="_blank" rel="noopener">
                             <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
                         </a>
 
@@ -377,7 +383,7 @@
                             @csrf
                             <div class="qty-wrap">
                                 <input type="number" name="quantity" min="1" max="99" value="1" aria-label="Quantity">
-                                <button class="btn btn-cart" type="submit"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                                <button class="product-action-btn btn-cart" type="submit"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
                             </div>
                         </form>
                     </div>

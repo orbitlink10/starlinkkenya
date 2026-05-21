@@ -427,6 +427,26 @@
     }
 }
 
+@media (min-width: 1280px) {
+    .admin-shell {
+        display: grid;
+        grid-template-columns: 19.5rem minmax(0, 1fr);
+    }
+
+    .admin-shell > .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid #e1e9f3;
+        border-bottom: 0;
+    }
+
+    .admin-shell > main {
+        min-width: 0;
+    }
+}
+
 @media (max-width: 767px) {
     .section-bar,
     .toolbar,
