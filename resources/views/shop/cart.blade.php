@@ -254,8 +254,9 @@
             inset: 0;
             z-index: 100;
             display: none;
-            align-items: flex-start;
-            padding: 42px 4vw;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             background: rgba(4, 10, 18, 0.58);
             overflow-y: auto;
         }
@@ -265,27 +266,28 @@
         }
 
         .modal-panel {
-            width: min(750px, 94vw);
+            width: min(360px, 100%);
+            max-height: calc(100vh - 40px);
             border: 1px solid #d3d8e1;
             border-radius: 10px;
             background: #fff;
             box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .modal-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 18px;
+            gap: 12px;
             border-bottom: 1px solid #d9dee7;
-            padding: 26px 24px;
+            padding: 14px 16px;
         }
 
         .modal-title {
             margin: 0;
             color: #111927;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: 0;
         }
@@ -294,27 +296,27 @@
             border: 0;
             background: transparent;
             color: #54585f;
-            font-size: 28px;
+            font-size: 22px;
             line-height: 1;
             cursor: pointer;
         }
 
         .modal-body {
-            padding: 26px 24px 30px;
+            padding: 14px 16px 16px;
             text-align: center;
         }
 
         .signin-copy {
             margin: 0;
             color: #202837;
-            font-size: 17px;
+            font-size: 14px;
         }
 
         .signin-link {
             display: inline-flex;
-            margin-top: 28px;
+            margin-top: 8px;
             color: #0050a8;
-            font-size: 17px;
+            font-size: 14px;
             font-weight: 700;
             text-decoration: underline;
             text-underline-offset: 4px;
@@ -322,17 +324,17 @@
 
         .checkout-form {
             display: grid;
-            gap: 24px;
-            margin-top: 28px;
+            gap: 8px;
+            margin-top: 14px;
         }
 
         .checkout-field {
             width: 100%;
             border: 1px solid #cfd6e1;
             border-radius: 7px;
-            padding: 14px 18px;
+            padding: 8px 12px;
             color: #172033;
-            font-size: 16px;
+            font-size: 13px;
             outline: none;
         }
 
@@ -342,8 +344,8 @@
             border-radius: 999px;
             background: #a15b0f;
             color: #fff;
-            padding: 16px 20px;
-            font-size: 17px;
+            padding: 10px 16px;
+            font-size: 14px;
             font-weight: 800;
             cursor: pointer;
         }
@@ -398,6 +400,23 @@
             .cart-item-image {
                 width: 100%;
                 height: 180px;
+            }
+
+            .checkout-modal {
+                padding: 12px;
+            }
+
+            .modal-panel {
+                width: min(340px, 100%);
+                max-height: calc(100vh - 24px);
+            }
+
+            .modal-head {
+                padding: 14px;
+            }
+
+            .modal-body {
+                padding: 14px;
             }
         }
     </style>
