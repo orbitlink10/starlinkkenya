@@ -18,7 +18,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 18px;
-            margin-bottom: 58px;
+            margin-bottom: 30px;
         }
 
         .cart-title {
@@ -64,13 +64,13 @@
         .cart-layout {
             display: grid;
             grid-template-columns: minmax(0, 2fr) minmax(360px, 480px);
-            gap: 36px;
+            gap: 24px;
             align-items: start;
         }
 
         .cart-items {
             display: grid;
-            gap: 24px;
+            gap: 12px;
         }
 
         .cart-item,
@@ -83,41 +83,41 @@
 
         .cart-item {
             display: grid;
-            grid-template-columns: 120px minmax(240px, 1fr) auto auto;
-            gap: 24px;
+            grid-template-columns: 72px minmax(150px, 1fr) auto minmax(110px, auto) 38px;
+            gap: 14px;
             align-items: center;
-            min-height: 170px;
-            padding: 24px;
+            min-height: 96px;
+            padding: 14px 16px;
         }
 
         .cart-item-image {
-            width: 120px;
-            height: 120px;
+            width: 72px;
+            height: 72px;
             object-fit: cover;
             border: 1px solid #dce2eb;
-            border-radius: 16px;
+            border-radius: 10px;
             background: #f3f6fb;
         }
 
         .cart-item-name {
             margin: 0;
             color: #051833;
-            font-size: 19px;
+            font-size: 16px;
             line-height: 1.22;
             font-weight: 800;
             letter-spacing: 0;
         }
 
         .cart-item-price {
-            margin: 12px 0 0;
+            margin: 6px 0 0;
             color: #5b6c86;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .qty-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .qty-form {
@@ -136,40 +136,40 @@
         }
 
         .qty-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 14px;
-            font-size: 22px;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            font-size: 18px;
             font-weight: 900;
             line-height: 1;
             cursor: pointer;
         }
 
         .qty-value {
-            width: 108px;
-            height: 56px;
-            border-radius: 14px;
-            font-size: 18px;
+            width: 64px;
+            height: 38px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 500;
         }
 
         .cart-item-total {
-            min-width: 190px;
+            min-width: 130px;
             color: #03142c;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 900;
             text-align: right;
             white-space: nowrap;
         }
 
         .remove-btn {
-            width: 54px;
-            height: 54px;
+            width: 38px;
+            height: 38px;
             border: 0;
-            border-radius: 14px;
+            border-radius: 10px;
             background: #e8314a;
             color: #fff;
-            font-size: 20px;
+            font-size: 16px;
             cursor: pointer;
         }
 
@@ -356,13 +356,13 @@
             }
 
             .cart-item {
-                grid-template-columns: 100px minmax(0, 1fr);
+                grid-template-columns: 72px minmax(0, 1fr) auto;
             }
 
             .qty-controls,
             .cart-item-total,
             .remove-form {
-                grid-column: 2;
+                grid-column: auto;
             }
 
             .cart-item-total {
@@ -387,19 +387,47 @@
             }
 
             .cart-item {
-                grid-template-columns: 1fr;
+                grid-template-columns: 64px minmax(0, 1fr) 34px;
+                gap: 12px;
+                padding: 12px;
             }
 
             .cart-item-image,
-            .qty-controls,
-            .cart-item-total,
-            .remove-form {
+            .qty-controls {
                 grid-column: 1;
             }
 
+            .cart-item > div:not(.qty-controls):not(.cart-item-total) {
+                grid-column: 2;
+            }
+
+            .cart-item-total {
+                grid-column: 2;
+            }
+
+            .remove-form {
+                grid-column: 3;
+                grid-row: 1;
+            }
+
             .cart-item-image {
-                width: 100%;
-                height: 180px;
+                width: 64px;
+                height: 64px;
+            }
+
+            .qty-controls {
+                gap: 6px;
+            }
+
+            .qty-btn,
+            .qty-value,
+            .remove-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            .qty-value {
+                width: 48px;
             }
 
             .checkout-modal {
