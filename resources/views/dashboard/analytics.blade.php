@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Website Analytics | Starlink Kenya Installers'])
+@extends('layouts.app', ['title' => 'Website Analytics | Starlink Kenya'])
 
 @php
     $rangeOptions = [

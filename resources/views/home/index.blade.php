@@ -1812,7 +1812,7 @@
             </div>
             <div class="main-bar">
                 <div class="container main-bar-inner">
-                    <a class="brand-block" href="{{ route('home') }}" aria-label="Starlink Kenya Installers home">
+                    <a class="brand-block" href="{{ route('home') }}" aria-label="Starlink Kenya home">
                         <span class="brand-mark"><i class="fa-solid fa-satellite-dish"></i></span>
                         <span class="brand-text">
                             <strong>STARLINK</strong>
@@ -1869,7 +1869,7 @@
 
             <section class="hero">
                 <div>
-                    <span class="hero-welcome-badge">Welcome to Starlink Kenya Installers</span>
+                    <span class="hero-welcome-badge">Welcome to Starlink Kenya</span>
                     <h1>{{ $heroTitle }}</h1>
                     <p>{{ $heroDescription }}</p>
                     <div class="hero-actions">
@@ -2069,7 +2069,7 @@
         </section>
 
         <footer class="footer">
-            Copyright {{ now()->year }} Starlink Kenya Installers. All rights reserved.
+            Copyright {{ now()->year }} Starlink Kenya. All rights reserved.
         </footer>
 
         <div class="whatsapp-wrap">

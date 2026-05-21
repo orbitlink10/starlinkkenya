@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Dashboard | Starlink Kenya Installers'])
+@extends('layouts.app', ['title' => 'Dashboard | Starlink Kenya'])
 
 @section('content')
     <style>
@@ -546,7 +546,7 @@
                         <span class="panel-sub">Latest updates</span>
                     </div>
                     <ol class="activity-list">
-                        <li>New website deployment for Starlink Kenya Installers.</li>
+                        <li>New website deployment for Starlink Kenya.</li>
                         <li>20 customer orders migrated into dashboard records.</li>
                         <li>Inventory synced for Starlink kits and accessories.</li>
                     </ol>

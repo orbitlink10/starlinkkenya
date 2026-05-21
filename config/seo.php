@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'site_name' => 'Starlink Kenya Installers',
+    'site_name' => 'Starlink Kenya',
     'default_description' => 'Buy genuine Starlink kits in Kenya with nationwide delivery, professional installation, and support for homes, businesses, farms, schools, and remote sites.',
     'phone' => '+254701299299',
     'whatsapp_phone' => '254700123456',

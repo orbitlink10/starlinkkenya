@@ -50,7 +50,7 @@ class ShopController extends Controller
             'productSummary' => $productSummary,
             'productDetailsHtml' => $productDetailsHtml,
             'seo' => [
-                'title' => $product->name.' | Starlink Kenya Installers',
+                'title' => $product->name.' | Starlink Kenya',
                 'description' => $productSummary,
                 'canonical' => route('shop.product.show', ['productSlug' => $product->slug ?: $product->id]),
                 'type' => 'product',
@@ -141,7 +141,7 @@ class ShopController extends Controller
             'cartCount' => $this->cartCount($request),
             'checkoutWhatsappUrl' => route('shop.cart.whatsapp'),
             'seo' => [
-                'title' => 'Your Cart | Starlink Kenya Installers',
+                'title' => 'Your Cart | Starlink Kenya',
                 'description' => 'Review your selected Starlink kits and accessories before checkout.',
                 'canonical' => route('shop.cart.index'),
                 'robots' => 'noindex,follow',

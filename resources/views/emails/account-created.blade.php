@@ -16,7 +16,7 @@
                                 Hello {{ $user->name }},
                             </p>
                             <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#52627a;">
-                                Your Starlink Kenya Installers account is ready. You can now sign in, review your order, pay using M-Pesa, or confirm the order through WhatsApp.
+                                Your Starlink Kenya account is ready. You can now sign in, review your order, pay using M-Pesa, or confirm the order through WhatsApp.
                             </p>
                             <p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:#52627a;">
                                 Account email: <strong style="color:#111927;">{{ $user->email }}</strong>
@@ -25,7 +25,7 @@
                                 Go to My Account
                             </a>
                             <p style="margin:24px 0 0;font-size:13px;line-height:1.5;color:#7b8798;">
-                                If you did not create this account, please contact Starlink Kenya Installers.
+                                If you did not create this account, please contact Starlink Kenya.
                             </p>
                         </td>
                     </tr>

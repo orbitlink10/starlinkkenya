@@ -34,7 +34,7 @@ class DashboardController extends Controller
             'stats' => $stats,
             'seo' => [
                 'title' => 'Dashboard | '.SeoData::siteName(),
-                'description' => 'Internal dashboard for Starlink Kenya Installers.',
+                'description' => 'Internal dashboard for Starlink Kenya.',
                 'canonical' => route('dashboard'),
                 'robots' => 'noindex,nofollow',
             ],

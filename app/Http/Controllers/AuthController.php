@@ -19,7 +19,7 @@ class AuthController extends Controller
         return view('auth.login', [
             'seo' => [
                 'title' => 'Login | '.SeoData::siteName(),
-                'description' => 'Secure admin login for Starlink Kenya Installers.',
+                'description' => 'Secure admin login for Starlink Kenya.',
                 'canonical' => route('login'),
                 'robots' => 'noindex,follow',
             ],

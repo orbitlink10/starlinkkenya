@@ -17,6 +17,6 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertOk();
-        $response->assertSeeText('Starlink Kenya Installers');
+        $response->assertSeeText('Starlink Kenya');
     }
 }

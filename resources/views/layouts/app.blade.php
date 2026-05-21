@@ -3,7 +3,7 @@
 <head>
     @php
         $seo = $seo ?? [];
-        $metaTitle = trim((string) ($seo['title'] ?? ($title ?? config('seo.site_name', 'Starlink Kenya Installers'))));
+        $metaTitle = trim((string) ($seo['title'] ?? ($title ?? config('seo.site_name', 'Starlink Kenya'))));
         $metaDescription = \App\Support\SeoData::trimDescription($seo['description'] ?? config('seo.default_description'));
         $metaCanonical = trim((string) ($seo['canonical'] ?? url()->current()));
         $metaRobots = trim((string) ($seo['robots'] ?? 'index,follow'));
@@ -21,7 +21,7 @@
     <meta name="robots" content="{{ $metaRobots }}">
     <link rel="canonical" href="{{ $metaCanonical }}">
     <meta property="og:locale" content="en_KE">
-    <meta property="og:site_name" content="{{ config('seo.site_name', 'Starlink Kenya Installers') }}">
+    <meta property="og:site_name" content="{{ config('seo.site_name', 'Starlink Kenya') }}">
     <meta property="og:type" content="{{ $metaType }}">
     <meta property="og:title" content="{{ $metaTitle }}">
     <meta property="og:description" content="{{ $metaDescription }}">

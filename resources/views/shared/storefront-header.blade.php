@@ -284,7 +284,7 @@
 
 <header class="storefront-header">
     <div class="storefront-header__inner">
-        <a class="storefront-brand" href="{{ route('home') }}" aria-label="Starlink Kenya Installers home">
+        <a class="storefront-brand" href="{{ route('home') }}" aria-label="Starlink Kenya home">
             <span class="storefront-brand__mark"><i class="fa-solid fa-satellite-dish"></i></span>
             <span class="storefront-brand__text">
                 <strong>STARLINK</strong>

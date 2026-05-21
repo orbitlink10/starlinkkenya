@@ -10,7 +10,7 @@ class SeoData
 {
     public static function siteName(): string
     {
-        return (string) config('seo.site_name', 'Starlink Kenya Installers');
+        return (string) config('seo.site_name', 'Starlink Kenya');
     }
 
     public static function defaultDescription(): string

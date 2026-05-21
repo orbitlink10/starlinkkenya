@@ -21,7 +21,7 @@ class AccountCreatedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Starlink Kenya Installers account is ready',
+            subject: 'Your Starlink Kenya account is ready',
         );
     }
 

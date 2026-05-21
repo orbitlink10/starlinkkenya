@@ -8,7 +8,7 @@
             action="{{ route('login.attempt') }}"
         >
             @csrf
-            <h1 class="m-0 text-[38px] font-extrabold tracking-[-0.03em] text-[var(--ink)]">Starlink Kenya Installers</h1>
+            <h1 class="m-0 text-[38px] font-extrabold tracking-[-0.03em] text-[var(--ink)]">Starlink Kenya</h1>
             <p class="mb-7 mt-2.5 text-[17px] text-[var(--muted)]">Admin login</p>
 
             @if ($errors->any())

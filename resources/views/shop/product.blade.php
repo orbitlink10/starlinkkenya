@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $product->name.' | Starlink Kenya Installers'])
+@extends('layouts.app', ['title' => $product->name.' | Starlink Kenya'])
 
 @section('content')
     <style>
