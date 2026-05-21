@@ -63,6 +63,7 @@ class CartFlowTest extends TestCase
         $response->assertSeeText('Proceed to Checkout');
         $response->assertSeeText('Create an Account');
         $response->assertSeeText('Sign In Here');
+        $response->assertSee('Register & Go to Account', false);
         $response->assertSee('name="quantity" value="2"', false);
     }
 

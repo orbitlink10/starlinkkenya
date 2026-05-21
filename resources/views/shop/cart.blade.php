@@ -538,7 +538,7 @@
                     <input class="checkout-field" name="password" type="password" placeholder="Password" autocomplete="new-password" required>
                     <input class="checkout-field" name="password_confirmation" type="password" placeholder="Confirm Password" autocomplete="new-password" required>
 
-                    <button class="register-btn" type="submit">Register</button>
+                    <button class="register-btn" type="submit">Register & Go to Account</button>
                 </form>
             </div>
         </div>
@@ -567,6 +567,9 @@
             };
 
             openButton.addEventListener('click', openModal);
+            @if ($errors->any())
+                openModal();
+            @endif
             closeButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (event) => {
                 if (event.target === modal) {
