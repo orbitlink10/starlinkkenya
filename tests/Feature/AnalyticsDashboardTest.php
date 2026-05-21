@@ -52,7 +52,7 @@ class AnalyticsDashboardTest extends TestCase
         $this->get('/satellite-internet-guide')->assertOk();
 
         $this->post(route('shop.cart.add', ['product' => $product]), ['quantity' => 2])
-            ->assertRedirect(route('shop.product.show', ['productSlug' => 'starlink-standard-kit']));
+            ->assertRedirect(route('shop.cart.index'));
 
         $productWhatsappResponse = $this->get(route('shop.product.whatsapp', ['product' => $product]));
         $productWhatsappResponse->assertStatus(302);

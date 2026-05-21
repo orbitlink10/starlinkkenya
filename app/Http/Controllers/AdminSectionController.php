@@ -7,10 +7,12 @@ use App\Models\HomepageContent;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -30,6 +32,7 @@ class AdminSectionController extends Controller
         $supportsYoutubeVideoUrl = false;
         $supportsCaseStudies = false;
         $caseStudiesConfig = null;
+        $settingsConfig = null;
 
         if (in_array($section, ['homepage-content', 'menus', 'testimonials'], true)) {
             $supportsYoutubeVideoUrl = $this->supportsYoutubeVideoUrl();
@@ -49,6 +52,15 @@ class AdminSectionController extends Controller
             );
         }
 
+        if ($section === 'settings') {
+            $settingsConfig = [
+                'whatsapp_phone' => old(
+                    'whatsapp_phone',
+                    SiteSetting::value('whatsapp_phone', (string) config('seo.whatsapp_phone', '254700123456'))
+                ),
+            ];
+        }
+
         return view('dashboard.section', [
             'activeSection' => $section,
             'section' => $section,
@@ -60,6 +72,7 @@ class AdminSectionController extends Controller
             'supportsYoutubeVideoUrl' => $supportsYoutubeVideoUrl,
             'supportsCaseStudies' => $supportsCaseStudies,
             'caseStudiesConfig' => $caseStudiesConfig,
+            'settingsConfig' => $settingsConfig,
         ]);
     }
 
@@ -219,6 +232,33 @@ class AdminSectionController extends Controller
         return redirect()
             ->route('admin.section', ['section' => 'menus'])
             ->with('success', 'Menus updated successfully.');
+    }
+
+    public function updateSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'whatsapp_phone' => [
+                'required',
+                'string',
+                'max:24',
+                static function (string $attribute, mixed $value, \Closure $fail): void {
+                    $digits = preg_replace('/\D+/', '', (string) $value) ?? '';
+
+                    if (! preg_match('/^254\d{9}$/', $digits)) {
+                        $fail('Enter the WhatsApp number in Kenya international format, for example 254700123456.');
+                    }
+                },
+            ],
+        ]);
+
+        $whatsappPhone = preg_replace('/\D+/', '', (string) $validated['whatsapp_phone']) ?: '';
+
+        SiteSetting::setValue('whatsapp_phone', $whatsappPhone);
+        Config::set('seo.whatsapp_phone', $whatsappPhone);
+
+        return redirect()
+            ->route('admin.section', ['section' => 'settings'])
+            ->with('success', 'Settings updated successfully.');
     }
 
     /**

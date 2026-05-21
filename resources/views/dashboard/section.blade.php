@@ -683,6 +683,45 @@
                             reindexItems();
                         })();
                     </script>
+                @elseif ($section === 'settings' && isset($settingsConfig))
+                    @php
+                        $whatsappPhoneInput = (string) ($settingsConfig['whatsapp_phone'] ?? '');
+                        $whatsappPhoneDigits = preg_replace('/\D+/', '', $whatsappPhoneInput);
+                    @endphp
+
+                    @if (session('success'))
+                        <div class="flash-success">{{ session('success') }}</div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="flash-error">{{ $errors->first() }}</div>
+                    @endif
+
+                    <form class="form-grid" method="POST" action="{{ route('admin.settings.update') }}">
+                        @csrf
+
+                        <div>
+                            <label class="field-label" for="whatsapp_phone">WhatsApp Phone Number</label>
+                            <p class="field-help">Use Kenya international format without a plus sign, for example <code>254700123456</code>. This updates the header, floating WhatsApp button, product order links, and cart checkout link.</p>
+                            <input
+                                class="field-input"
+                                id="whatsapp_phone"
+                                name="whatsapp_phone"
+                                type="tel"
+                                value="{{ $whatsappPhoneInput }}"
+                                inputmode="numeric"
+                                autocomplete="tel"
+                                placeholder="254700123456"
+                                required
+                            >
+
+                            @if ($whatsappPhoneDigits)
+                                <p class="field-help">Current WhatsApp link: <a href="https://wa.me/{{ $whatsappPhoneDigits }}" target="_blank" rel="noopener">https://wa.me/{{ $whatsappPhoneDigits }}</a></p>
+                            @endif
+                        </div>
+
+                        <button class="save-btn" type="submit">Save Settings</button>
+                    </form>
                 @elseif ($table)
                     <div class="table-wrap">
                         <table class="table">

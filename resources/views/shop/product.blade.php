@@ -248,8 +248,13 @@
         .actions {
             margin-top: 28px;
             display: flex;
+            align-items: center;
             gap: 14px;
             flex-wrap: wrap;
+        }
+
+        .actions form {
+            display: inline-flex;
         }
 
         .product-action-btn {
@@ -283,7 +288,6 @@
         }
 
         .qty-wrap {
-            margin-top: 18px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -297,6 +301,7 @@
             padding: 14px 14px;
             font-size: 16px;
             font-weight: 600;
+            min-height: 54px;
             color: var(--ink);
             background: rgba(255, 255, 255, 0.92);
         }

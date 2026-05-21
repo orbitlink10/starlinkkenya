@@ -21,6 +21,7 @@ Route::get('/product/{product}/whatsapp', [ShopController::class, 'redirectToPro
 Route::post('/cart/{product}', [ShopController::class, 'addToCart'])->name('shop.cart.add');
 Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart.index');
 Route::get('/cart/checkout/whatsapp', [ShopController::class, 'redirectToCartWhatsapp'])->name('shop.cart.whatsapp');
+Route::patch('/cart/{product}', [ShopController::class, 'updateCart'])->name('shop.cart.update');
 Route::delete('/cart/{product}', [ShopController::class, 'removeFromCart'])->name('shop.cart.remove');
 
 Route::middleware('guest')->group(function (): void {
@@ -85,6 +86,8 @@ Route::middleware('auth')->group(function (): void {
         ->name('admin.testimonials.update');
     Route::post('/admin/menus', [AdminSectionController::class, 'updateMenus'])
         ->name('admin.menus.update');
+    Route::post('/admin/settings', [AdminSectionController::class, 'updateSettings'])
+        ->name('admin.settings.update');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/logout.php', [AuthController::class, 'logout'])->name('logout.shortcut');
 });

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\HomepageContent;
+use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -22,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (Schema::hasTable('site_settings')) {
+            $whatsappPhone = SiteSetting::value('whatsapp_phone');
+
+            if ($whatsappPhone) {
+                Config::set('seo.whatsapp_phone', $whatsappPhone);
+            }
+        }
+
         View::composer('*', function ($view): void {
             $view->with(
                 'siteNavigationMenu',

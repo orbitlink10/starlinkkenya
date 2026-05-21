@@ -111,7 +111,7 @@ class ShopController extends Controller
         ], '/product/'.($product->slug ?: $product->id));
 
         return redirect()
-            ->route('shop.product.show', ['productSlug' => $product->slug ?: $product->id])
+            ->route('shop.cart.index')
             ->with('success', $product->name.' added to cart.');
     }
 
@@ -158,6 +158,32 @@ class ShopController extends Controller
         return redirect()
             ->route('shop.cart.index')
             ->with('success', $product->name.' removed from cart.');
+    }
+
+    public function updateCart(Request $request, Product $product): RedirectResponse
+    {
+        $validated = $request->validate([
+            'quantity' => ['required', 'integer', 'min:1', 'max:99'],
+        ]);
+
+        $cart = $request->session()->get('cart', []);
+        $itemKey = (string) $product->id;
+
+        if (! isset($cart[$itemKey])) {
+            return redirect()->route('shop.cart.index');
+        }
+
+        $stockLimit = (int) ($product->quantity ?? $product->stock ?? 0);
+        $quantity = (int) $validated['quantity'];
+
+        if ($stockLimit > 0) {
+            $quantity = min($quantity, $stockLimit);
+        }
+
+        $cart[$itemKey]['quantity'] = $quantity;
+        $request->session()->put('cart', $cart);
+
+        return redirect()->route('shop.cart.index');
     }
 
     public function redirectToProductWhatsapp(Product $product, Request $request, AnalyticsService $analyticsService): RedirectResponse
