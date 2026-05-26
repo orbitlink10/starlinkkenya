@@ -7,6 +7,8 @@
     $phoneHref = 'tel:'.preg_replace('/\D+/', '', $phoneNumber);
     $whatsappPhone = (string) config('seo.whatsapp_phone', '254700123456');
     $whatsappHref = 'https://wa.me/'.preg_replace('/\D+/', '', $whatsappPhone);
+    $siteLogoPath = trim((string) config('seo.logo_path', ''), '/');
+    $siteLogoUrl = $siteLogoPath !== '' ? route('media.show', ['path' => $siteLogoPath]) : null;
     $cartCount = (int) collect(session('cart', []))
         ->sum(fn (array $item): int => (int) ($item['quantity'] ?? 0));
 @endphp
@@ -60,6 +62,19 @@
             border-radius: 50%;
             background: #ff9b2f;
             box-shadow: 0 0 0 6px rgba(255, 155, 47, 0.12);
+        }
+
+        .storefront-brand__logo {
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            object-fit: contain;
+            background: #fff;
+            padding: 8px;
+        }
+
+        .storefront-brand__mark--logo::after {
+            display: none;
         }
 
         .storefront-brand__text {
@@ -285,7 +300,13 @@
 <header class="storefront-header">
     <div class="storefront-header__inner">
         <a class="storefront-brand" href="{{ route('home') }}" aria-label="Starlink Kenya home">
-            <span class="storefront-brand__mark"><i class="fa-solid fa-satellite-dish"></i></span>
+            <span class="storefront-brand__mark {{ $siteLogoUrl ? 'storefront-brand__mark--logo' : '' }}">
+                @if ($siteLogoUrl)
+                    <img class="storefront-brand__logo" src="{{ $siteLogoUrl }}" alt="Starlink Kenya logo">
+                @else
+                    <i class="fa-solid fa-satellite-dish"></i>
+                @endif
+            </span>
             <span class="storefront-brand__text">
                 <strong>STARLINK</strong>
                 <small>KENYA INSTALLERS</small>

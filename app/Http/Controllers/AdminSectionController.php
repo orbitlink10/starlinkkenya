@@ -53,11 +53,15 @@ class AdminSectionController extends Controller
         }
 
         if ($section === 'settings') {
+            $logoPath = SiteSetting::value('logo_path');
+
             $settingsConfig = [
                 'whatsapp_phone' => old(
                     'whatsapp_phone',
                     SiteSetting::value('whatsapp_phone', (string) config('seo.whatsapp_phone', '254700123456'))
                 ),
+                'logo_path' => $logoPath,
+                'logo_url' => $logoPath ? route('media.show', ['path' => $logoPath]) : null,
             ];
         }
 
@@ -249,6 +253,7 @@ class AdminSectionController extends Controller
                     }
                 },
             ],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:4096'],
         ]);
 
         $whatsappPhone = preg_replace('/\D+/', '', (string) $validated['whatsapp_phone']) ?: '';
@@ -262,6 +267,19 @@ class AdminSectionController extends Controller
 
         SiteSetting::setValue('whatsapp_phone', $whatsappPhone);
         Config::set('seo.whatsapp_phone', $whatsappPhone);
+
+        if ($request->hasFile('logo')) {
+            $existingLogoPath = SiteSetting::value('logo_path');
+
+            if ($existingLogoPath && Storage::disk('public')->exists($existingLogoPath)) {
+                Storage::disk('public')->delete($existingLogoPath);
+            }
+
+            $logoPath = $request->file('logo')->store('site/logo', 'public');
+
+            SiteSetting::setValue('logo_path', $logoPath);
+            Config::set('seo.logo_path', $logoPath);
+        }
 
         return redirect()
             ->route('admin.section', ['section' => 'settings'])

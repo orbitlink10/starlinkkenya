@@ -687,6 +687,7 @@
                     @php
                         $whatsappPhoneInput = (string) ($settingsConfig['whatsapp_phone'] ?? '');
                         $whatsappPhoneDigits = preg_replace('/\D+/', '', $whatsappPhoneInput);
+                        $logoUrl = $settingsConfig['logo_url'] ?? null;
                     @endphp
 
                     @if (session('success'))
@@ -697,8 +698,20 @@
                         <div class="flash-error">{{ $errors->first() }}</div>
                     @endif
 
-                    <form class="form-grid" method="POST" action="{{ route('admin.settings.update') }}">
+                    <form class="form-grid" method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
                         @csrf
+
+                        <div>
+                            <label class="field-label" for="logo">Website Logo</label>
+                            <p class="field-help">Upload a JPG, PNG, or WebP logo. It will replace the default header mark on the storefront.</p>
+                            <input class="file-input" id="logo" name="logo" type="file" accept=".jpg,.jpeg,.png,.webp">
+
+                            @if ($logoUrl)
+                                <div class="image-preview">
+                                    <img src="{{ $logoUrl }}" alt="Current website logo">
+                                </div>
+                            @endif
+                        </div>
 
                         <div>
                             <label class="field-label" for="whatsapp_phone">WhatsApp Phone Number</label>
@@ -757,4 +770,3 @@
         </main>
     </div>
 @endsection
-

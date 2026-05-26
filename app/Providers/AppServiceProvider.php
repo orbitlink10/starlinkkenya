@@ -30,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
             Config::set('seo.whatsapp_phone', $whatsappPhone);
         }
 
+        $siteLogoPath = SiteSetting::value('logo_path');
+
+        if ($siteLogoPath) {
+            Config::set('seo.logo_path', $siteLogoPath);
+        }
+
         View::composer('*', function ($view): void {
             $view->with(
                 'siteNavigationMenu',
