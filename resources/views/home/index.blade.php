@@ -1138,10 +1138,8 @@
             font-size: clamp(40px, 3.5vw, 58px);
             line-height: 1.08;
             max-width: 20ch;
-        }
-
-        .article-box > h2:first-child {
-            margin-inline: 0;
+            margin-inline: auto;
+            text-align: center;
         }
 
         .article-box h1::after,
@@ -1160,6 +1158,12 @@
         .article-box h2::after {
             left: 0;
             transform: none;
+        }
+
+        .article-box > h1:first-child::after,
+        .article-box > h2:first-child::after {
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .article-box p {
