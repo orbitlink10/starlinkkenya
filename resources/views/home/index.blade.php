@@ -52,6 +52,10 @@
             ->filter(fn (array $item): bool => $item['label'] !== '' && $item['href'] !== '')
             ->values()
             ->all();
+        $audienceTabs = [
+            ['label' => 'Personal', 'href' => '#packages', 'active' => true],
+            ['label' => 'Business', 'href' => '#installation', 'active' => false],
+        ];
         $caseStudies = collect($caseStudies ?? []);
         $caseStudiesHeadline = "Where We've Delivered Connectivity: Trusted by Organizations Nationwide.";
         $caseStudiesIntro = 'Browse a few of the installations, support rollouts, and connectivity deployments our team has delivered across Kenya.';
@@ -124,106 +128,51 @@
         }
 
         .store-header {
-            background: rgba(248, 251, 255, 0.78);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(217, 230, 244, 0.92);
+            position: relative;
+            z-index: 20;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.82) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 32% 70%, rgba(255, 255, 255, 0.6) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 56% 36%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 78% 68%, rgba(255, 255, 255, 0.56) 0 1px, transparent 1.5px),
+                linear-gradient(180deg, #202733 0%, #121821 100%);
+            background-size: 180px 74px, 220px 94px, 260px 86px, 190px 90px, auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 34px rgba(7, 14, 24, 0.18);
         }
 
-        .notice-bar,
+        .store-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.12) 48%, rgba(255, 255, 255, 0.02)),
+                radial-gradient(circle at 70% 0%, rgba(255, 255, 255, 0.14), transparent 34%);
+        }
+
         .main-bar {
-            background: transparent;
-        }
-
-        .notice-inner {
-            min-height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 18px;
-            padding: 14px 0 10px;
-        }
-
-        .notice-left {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 22px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.78);
-            color: var(--ink-700);
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            box-shadow: 0 10px 24px rgba(14, 37, 79, 0.04);
-        }
-
-        .notice-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--ink-700);
-            font-size: 15px;
-        }
-
-        .notice-right a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 11px 16px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.8);
-            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-            box-shadow: 0 10px 24px rgba(14, 37, 79, 0.04);
-        }
-
-        .notice-right a:hover {
-            transform: translateY(-1px);
-            border-color: var(--line-strong);
-            box-shadow: 0 14px 28px rgba(14, 37, 79, 0.08);
+            position: relative;
+            z-index: 1;
         }
 
         .main-bar-inner {
-            min-height: 104px;
-            display: grid;
-            grid-template-columns: auto minmax(0, 1fr) auto;
+            min-height: 94px;
+            display: flex;
             align-items: center;
-            gap: 28px;
-            padding: 8px 0 24px;
+            gap: clamp(22px, 3vw, 56px);
+            padding: 0;
         }
 
         .brand-block {
             display: inline-flex;
             align-items: center;
-            gap: 16px;
-            min-width: 296px;
+            flex: 0 0 auto;
         }
 
         .brand-mark {
-            position: relative;
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #112447 0%, #1f3a6d 100%);
-            color: #fff;
-            font-size: 28px;
-            box-shadow: 0 16px 30px rgba(17, 36, 71, 0.24);
-        }
-
-        .brand-mark::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            right: 10px;
-            top: 10px;
-            border-radius: 50%;
-            background: var(--orange);
-            box-shadow: 0 0 0 6px rgba(255, 155, 47, 0.12);
+            display: none;
         }
 
         .brand-text {
@@ -232,87 +181,118 @@
 
         .brand-text strong {
             display: block;
-            font-size: clamp(24px, 1.9vw, 34px);
+            color: #fff;
+            font-size: clamp(24px, 2vw, 32px);
             font-weight: 800;
-            color: var(--ink-900);
-            letter-spacing: .02em;
+            letter-spacing: .24em;
+            text-shadow: 0 1px 18px rgba(255, 255, 255, 0.2);
         }
 
         .brand-text small {
-            display: block;
-            margin-top: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--ink-500);
-            letter-spacing: .24em;
+            display: none;
         }
 
-        .header-search {
-            width: 100%;
+        .section-nav {
             display: flex;
-            align-items: stretch;
-            border: 1px solid var(--line);
-            border-radius: 26px;
-            overflow: hidden;
-            background: var(--surface);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .header-search input {
-            flex: 1;
+            align-items: center;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
             border: 0;
             background: transparent;
-            color: var(--ink-900);
-            height: 72px;
-            padding: 0 28px;
-            font-size: 17px;
-            font-family: inherit;
-            outline: none;
+            box-shadow: none;
         }
 
-        .header-search input::placeholder {
-            color: var(--ink-500);
+        .section-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            transition: color .2s ease, opacity .2s ease;
         }
 
-        .header-search button {
-            border: 0;
-            min-width: 78px;
-            padding: 0 24px;
-            background: linear-gradient(135deg, var(--orange) 0%, #ffb14f 100%);
+        .section-nav a:hover {
+            color: #fff;
+        }
+
+        .header-spacer {
+            flex: 1 1 auto;
+            min-width: 12px;
+        }
+
+        .header-call {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .header-call strong {
+            color: #fff;
+            font-weight: 900;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .audience-tabs {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px;
+            border-radius: 8px;
+            background: rgba(113, 122, 137, 0.88);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        }
+
+        .audience-tabs a {
+            min-width: 126px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            padding: 14px 20px;
             color: #fff;
             font-size: 18px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            box-shadow: -10px 0 24px rgba(255, 155, 47, 0.2);
+            font-weight: 900;
+            line-height: 1;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .audience-tabs a.is-active,
+        .audience-tabs a:hover {
+            background: rgba(173, 181, 195, 0.74);
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .header-icon {
             position: relative;
-            width: 48px;
-            height: 48px;
-            border-radius: 18px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
             display: grid;
             place-items: center;
-            color: var(--ink-900);
-            font-size: 20px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.86);
-            box-shadow: 0 10px 24px rgba(14, 37, 79, 0.05);
-            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 22px;
+            border: 0;
+            background: rgba(113, 122, 137, 0.68);
+            box-shadow: none;
+            transition: background .2s ease, color .2s ease;
         }
 
         .header-icon:hover {
-            transform: translateY(-1px);
-            color: var(--orange-dark);
-            border-color: rgba(255, 155, 47, 0.24);
-            box-shadow: 0 14px 28px rgba(14, 37, 79, 0.08);
+            color: #fff;
+            background: rgba(137, 146, 162, 0.86);
         }
 
         .cart-badge {
@@ -333,36 +313,7 @@
         }
 
         .chevron-icon {
-            width: 48px;
-        }
-
-        .section-nav {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0 28px;
-            padding: 12px;
-            border-radius: 24px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.82);
-            box-shadow: 0 14px 28px rgba(14, 37, 79, 0.04);
-        }
-
-        .section-nav a {
-            border-radius: 18px;
-            padding: 12px 18px;
-            color: var(--ink-700);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: .01em;
-            transition: .2s ease;
-        }
-
-        .section-nav a:hover {
-            background: var(--orange-soft);
-            color: var(--orange-dark);
-            transform: translateY(-1px);
+            width: 56px;
         }
 
         .mobile-shop-rail {
@@ -1330,24 +1281,29 @@
 
         @media (max-width: 980px) {
             .main-bar-inner {
-                grid-template-columns: minmax(0, 1fr) auto;
-                justify-items: stretch;
-                gap: 18px;
-                padding-bottom: 22px;
+                flex-wrap: wrap;
+                gap: 12px 18px;
+                padding: 16px 0;
             }
 
             .brand-block {
                 min-width: 0;
-                justify-self: start;
             }
 
-            .header-search {
-                grid-column: 1 / -1;
-                grid-row: 2;
+            .section-nav {
+                order: 5;
+                width: 100%;
+                overflow-x: auto;
+                gap: 22px;
+                scrollbar-width: none;
+            }
+
+            .section-nav::-webkit-scrollbar {
+                display: none;
             }
 
             .header-actions {
-                justify-self: end;
+                margin-left: 0;
             }
 
             .article-box {
@@ -1379,124 +1335,75 @@
                 position: sticky;
                 top: 0;
                 z-index: 30;
-                box-shadow: 0 8px 18px rgba(14, 37, 79, 0.06);
+                box-shadow: 0 8px 18px rgba(7, 14, 24, 0.22);
             }
 
-            .notice-bar {
+            .main-bar-inner {
+                min-height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 12px 0;
+            }
+
+            .brand-block {
+                margin-right: auto;
+            }
+
+            .brand-text strong {
+                font-size: 19px;
+                letter-spacing: .18em;
+            }
+
+            .header-spacer,
+            .header-call {
                 display: none;
             }
 
-            .notice-inner {
-                min-height: auto;
-                display: grid;
-                grid-template-columns: minmax(0, 1fr);
-                gap: 8px;
-                padding: 7px 0 5px;
+            .audience-tabs {
+                order: 2;
+                gap: 4px;
+                padding: 3px;
             }
 
-            .notice-left {
-                max-width: 100%;
-                justify-content: center;
-                font-size: 10px;
-                padding: 8px 12px;
-                letter-spacing: .08em;
+            .audience-tabs a {
+                min-width: 84px;
+                padding: 10px 12px;
+                font-size: 13px;
             }
 
-            .notice-right {
-                width: 100%;
-                justify-content: flex-start;
-                gap: 8px;
-                overflow-x: auto;
-                scrollbar-width: none;
+            .header-actions {
+                order: 3;
+                gap: 7px;
             }
 
-            .notice-right::-webkit-scrollbar,
+            .header-icon,
+            .chevron-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 17px;
+            }
+
             .section-nav::-webkit-scrollbar,
             .mobile-shop-rail::-webkit-scrollbar {
                 display: none;
             }
 
-            .notice-right a {
-                white-space: nowrap;
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .main-bar-inner {
-                min-height: auto;
-                grid-template-columns: minmax(0, 1fr) auto;
-                gap: 9px 10px;
-                padding: 8px 0 10px;
-            }
-
-            .brand-block {
-                gap: 10px;
-            }
-
-            .brand-mark {
-                width: 42px;
-                height: 42px;
-                border-radius: 14px;
-                font-size: 20px;
-            }
-
-            .brand-text strong {
-                font-size: 19px;
-            }
-
-            .brand-text small {
-                margin-top: 4px;
-                font-size: 8px;
-                letter-spacing: .14em;
-            }
-
-            .header-search {
-                grid-column: 1 / -1;
-                grid-row: 2;
-                border-radius: 18px;
-                box-shadow: 0 10px 22px rgba(14, 37, 79, 0.06);
-            }
-
-            .header-search input {
-                height: 50px;
-                padding: 0 14px;
-                font-size: 14px;
-            }
-
-            .header-search button {
-                min-width: 52px;
-                padding: 0 14px;
-            }
-
-            .header-actions {
-                gap: 7px;
-                justify-self: end;
-            }
-
-            .header-icon,
-            .chevron-icon {
-                width: 40px;
-                height: 40px;
-                border-radius: 14px;
-                font-size: 17px;
-            }
-
             .section-nav {
-                order: 1;
+                order: 4;
                 flex-wrap: nowrap;
                 overflow-x: auto;
-                margin: 10px -12px 10px;
-                padding: 8px 12px;
-                border-radius: 0;
-                border-width: 1px 0;
-                background: rgba(255, 255, 255, 0.84);
+                width: calc(100% + 24px);
+                margin: 2px -12px 0;
+                padding: 2px 12px;
+                gap: 18px;
                 scrollbar-width: none;
             }
 
             .section-nav a {
                 white-space: nowrap;
-                padding: 10px 13px;
-                font-size: 13px;
+                min-height: 30px;
+                font-size: 14px;
             }
 
             .mobile-shop-rail {
@@ -1772,7 +1679,6 @@
             .chevron-icon {
                 width: 38px;
                 height: 38px;
-                border-radius: 13px;
                 font-size: 16px;
             }
 
@@ -1792,28 +1698,6 @@
 
     <main class="home">
         <header class="store-header">
-            <div class="notice-bar">
-                <div class="container notice-inner">
-                    <div class="notice-left">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Nationwide delivery and installation support</span>
-                    </div>
-                    <div class="notice-right">
-                        <a href="#prices" aria-label="View Starlink Kenya prices">
-                            <i class="fa-solid fa-tags"></i>
-                            Prices
-                        </a>
-                        <a href="{{ $primaryPhoneHref }}" aria-label="Call {{ $primaryPhone }}">
-                            <i class="fa-solid fa-headset"></i>
-                            {{ $primaryPhone }}
-                        </a>
-                        <a href="{{ $whatsappHref }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-                            <i class="fa-brands fa-whatsapp"></i>
-                            WhatsApp
-                        </a>
-                    </div>
-                </div>
-            </div>
             <div class="main-bar">
                 <div class="container main-bar-inner">
                     <a class="brand-block" href="{{ route('home') }}" aria-label="Starlink Kenya home">
@@ -1823,35 +1707,30 @@
                             <small>KENYA INSTALLERS</small>
                         </span>
                     </a>
-                    <form class="header-search" action="{{ route('home') }}#packages" method="GET" role="search">
-                        <input type="search" name="q" value="{{ $searchQuery ?? request('q') }}" placeholder="Search Starlink kits, mounts, and accessories" aria-label="Search Starlink products">
-                        <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </form>
+                    <nav class="section-nav" aria-label="Primary navigation">
+                        @foreach ($homeNavigationMenu as $menuItem)
+                            <a href="{{ $menuItem['href'] }}">{{ $menuItem['label'] }}</a>
+                        @endforeach
+                    </nav>
+                    <div class="header-spacer" aria-hidden="true"></div>
+                    <a class="header-call" href="{{ $primaryPhoneHref }}" aria-label="Call {{ $primaryPhone }}">
+                        <span>Call</span>
+                        <strong>{{ $primaryPhone }}</strong>
+                    </a>
+                    <nav class="audience-tabs" aria-label="Audience navigation">
+                        @foreach ($audienceTabs as $tab)
+                            <a class="{{ $tab['active'] ? 'is-active' : '' }}" href="{{ $tab['href'] }}">{{ $tab['label'] }}</a>
+                        @endforeach
+                    </nav>
                     <div class="header-actions">
-                        <a class="header-icon" href="{{ $whatsappHref }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
-                        <a class="header-icon" href="{{ route('shop.cart.index') }}" aria-label="Cart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="cart-badge">{{ $cartCount }}</span>
-                        </a>
-                        <a class="header-icon" href="{{ $primaryPhoneHref }}" aria-label="Call {{ $primaryPhone }}">
-                            <i class="fa-solid fa-phone"></i>
-                        </a>
                         <a class="header-icon chevron-icon" href="{{ $accountEntryUrl }}" aria-label="Account menu">
-                            <i class="fa-solid fa-chevron-down"></i>
+                            <i class="fa-solid fa-bars"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </header>
         <div class="container">
-            <nav class="section-nav" aria-label="Page section navigation">
-                @foreach ($homeNavigationMenu as $menuItem)
-                    <a href="{{ $menuItem['href'] }}">{{ $menuItem['label'] }}</a>
-                @endforeach
-            </nav>
-
             <div class="mobile-shop-rail" aria-label="Popular Starlink actions">
                 <a class="mobile-shop-tile" href="#packages">
                     <i class="fa-solid fa-box-open"></i>

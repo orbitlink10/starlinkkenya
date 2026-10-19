@@ -42,7 +42,6 @@ class HomeSearchTest extends TestCase
         $response->assertSeeText('Starlink Standard Router Kit');
         $response->assertDontSeeText('Starlink Ethernet Adapter');
         $response->assertDontSeeText('Hidden Router Accessory');
-        $response->assertSee('value="router"', false);
-        $response->assertSeeText('Search results for');
+        $response->assertSee('Search results for "router".', false);
     }
 }

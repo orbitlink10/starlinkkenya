@@ -23,7 +23,7 @@
                 id="email"
                 type="email"
                 name="email"
-                value="{{ old('email', 'admin@demo.com') }}"
+                value="{{ old('email') }}"
                 required
                 autofocus
             >
@@ -34,7 +34,6 @@
                 id="password"
                 type="password"
                 name="password"
-                value="admin123"
                 required
             >
 
@@ -45,9 +44,6 @@
                 Sign in to dashboard
             </button>
 
-            <div class="mt-5 rounded-[18px] border border-dashed border-[var(--border)] bg-[var(--panel)] px-4 py-3.5 text-[14px] text-[var(--muted)]">
-                Default access: <strong>admin@demo.com</strong> / <strong>admin123</strong>
-            </div>
         </form>
     </div>
 @endsection

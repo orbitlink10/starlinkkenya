@@ -31,8 +31,11 @@ class SitePageViewTest extends TestCase
 
         $response->assertOk();
         $response->assertSeeText('STARLINK');
-        $response->assertSeeText('KENYA INSTALLERS');
-        $response->assertSee('placeholder="Search Starlink kits, mounts, and accessories"', false);
+        $response->assertSeeText('Residential');
+        $response->assertSeeText('Roam');
+        $response->assertSeeText('Personal');
+        $response->assertSeeText('Business');
+        $response->assertSee('fa-bars', false);
         $response->assertSeeText('Mar 05, 2026');
         $response->assertSeeText('Starlink Nairobi Subscription Suspension');
         $response->assertSeeText('Learn how to fix Starlink Nairobi Subscription Suspension fast.');

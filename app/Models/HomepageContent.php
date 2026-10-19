@@ -35,11 +35,8 @@ class HomepageContent extends Model
     public static function defaultNavigationMenu(): array
     {
         return [
-            ['label' => 'Shop', 'href' => '#packages'],
-            ['label' => 'Starlink Kenya Prices', 'href' => '#prices'],
-            ['label' => 'Installation', 'href' => '#installation'],
-            ['label' => 'Coverage', 'href' => '#coverage'],
-            ['label' => 'FAQs', 'href' => '#faqs'],
+            ['label' => 'Residential', 'href' => '#packages'],
+            ['label' => 'Roam', 'href' => '#coverage'],
         ];
     }
 

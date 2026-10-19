@@ -11,57 +11,75 @@
     $siteLogoUrl = $siteLogoPath !== '' ? route('media.show', ['path' => $siteLogoPath]) : null;
     $cartCount = (int) collect(session('cart', []))
         ->sum(fn (array $item): int => (int) ($item['quantity'] ?? 0));
+    $siteMenu = collect($siteNavigationMenu ?? \App\Models\HomepageContent::currentNavigationMenu())
+        ->map(function (array $item) use ($rootBaseUrl): array {
+            $href = trim((string) ($item['href'] ?? ''));
+
+            if ($href !== '' && str_starts_with($href, '#')) {
+                $href = $rootBaseUrl.'/'.$href;
+            }
+
+            return [
+                'label' => trim((string) ($item['label'] ?? '')),
+                'href' => $href,
+            ];
+        })
+        ->filter(fn (array $item): bool => $item['label'] !== '' && $item['href'] !== '')
+        ->values()
+        ->all();
+    $audienceTabs = [
+        ['label' => 'Personal', 'href' => $rootBaseUrl.'/#packages', 'active' => true],
+        ['label' => 'Business', 'href' => $rootBaseUrl.'/#installation', 'active' => false],
+    ];
 @endphp
 
 @once
     <style>
         .storefront-header {
-            background: rgba(248, 251, 255, 0.78);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(217, 230, 244, 0.92);
+            position: relative;
+            z-index: 20;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 22%, rgba(255, 255, 255, 0.82) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 32% 70%, rgba(255, 255, 255, 0.6) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 56% 36%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 78% 68%, rgba(255, 255, 255, 0.56) 0 1px, transparent 1.5px),
+                linear-gradient(180deg, #202733 0%, #121821 100%);
+            background-size: 180px 74px, 220px 94px, 260px 86px, 190px 90px, auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 34px rgba(7, 14, 24, 0.18);
+        }
+
+        .storefront-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.12) 48%, rgba(255, 255, 255, 0.02)),
+                radial-gradient(circle at 70% 0%, rgba(255, 255, 255, 0.14), transparent 34%);
         }
 
         .storefront-header__inner {
+            position: relative;
+            z-index: 1;
             width: min(1400px, 94vw);
-            min-height: 104px;
+            min-height: 94px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: auto minmax(0, 1fr) auto;
+            display: flex;
             align-items: center;
-            gap: 28px;
-            padding: 18px 0 20px;
+            gap: clamp(22px, 3vw, 56px);
+            padding: 0;
         }
 
         .storefront-brand {
             display: inline-flex;
             align-items: center;
-            gap: 16px;
-            min-width: 296px;
+            flex: 0 0 auto;
         }
 
         .storefront-brand__mark {
-            position: relative;
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #112447 0%, #1f3a6d 100%);
-            color: #fff;
-            font-size: 28px;
-            box-shadow: 0 16px 30px rgba(17, 36, 71, 0.24);
-        }
-
-        .storefront-brand__mark::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            right: 10px;
-            top: 10px;
-            border-radius: 50%;
-            background: #ff9b2f;
-            box-shadow: 0 0 0 6px rgba(255, 155, 47, 0.12);
+            display: none;
         }
 
         .storefront-brand__logo {
@@ -83,59 +101,87 @@
 
         .storefront-brand__text strong {
             display: block;
-            font-size: clamp(24px, 1.9vw, 34px);
+            font-size: clamp(24px, 2vw, 32px);
             font-weight: 800;
-            color: #0d1c3d;
-            letter-spacing: .02em;
+            color: #fff;
+            letter-spacing: .24em;
+            text-shadow: 0 1px 18px rgba(255, 255, 255, 0.2);
         }
 
         .storefront-brand__text small {
-            display: block;
-            margin-top: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #586f91;
-            letter-spacing: .24em;
+            display: none;
         }
 
-        .storefront-search {
-            width: 100%;
+        .storefront-nav {
             display: flex;
-            align-items: stretch;
-            border: 1px solid #d9e6f4;
-            border-radius: 26px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 20px 54px rgba(15, 37, 79, 0.08);
+            align-items: center;
+            gap: 28px;
         }
 
-        .storefront-search input {
-            flex: 1;
-            border: 0;
-            background: transparent;
-            color: #0d1c3d;
-            height: 72px;
-            padding: 0 28px;
-            font-size: 17px;
-            font-family: inherit;
-            outline: none;
+        .storefront-nav a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            transition: color .2s ease;
         }
 
-        .storefront-search input::placeholder {
-            color: #586f91;
+        .storefront-nav a:hover {
+            color: #fff;
         }
 
-        .storefront-search button {
-            border: 0;
-            min-width: 78px;
-            padding: 0 24px;
-            background: linear-gradient(135deg, #ff9b2f 0%, #ffb14f 100%);
+        .storefront-spacer {
+            flex: 1 1 auto;
+            min-width: 12px;
+        }
+
+        .storefront-call {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .storefront-call strong {
+            color: #fff;
+            font-weight: 900;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .storefront-audience {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px;
+            border-radius: 8px;
+            background: rgba(113, 122, 137, 0.88);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        }
+
+        .storefront-audience a {
+            min-width: 126px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            padding: 14px 20px;
             color: #fff;
             font-size: 18px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            box-shadow: -10px 0 24px rgba(255, 155, 47, 0.2);
+            font-weight: 900;
+            line-height: 1;
+            transition: background .2s ease;
+        }
+
+        .storefront-audience a.is-active,
+        .storefront-audience a:hover {
+            background: rgba(173, 181, 195, 0.74);
         }
 
         .storefront-actions {
@@ -146,24 +192,22 @@
 
         .storefront-icon {
             position: relative;
-            width: 48px;
-            height: 48px;
-            border-radius: 18px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
             display: grid;
             place-items: center;
-            color: #0d1c3d;
-            font-size: 20px;
-            border: 1px solid #d9e6f4;
-            background: rgba(255, 255, 255, 0.86);
-            box-shadow: 0 10px 24px rgba(14, 37, 79, 0.05);
-            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 22px;
+            border: 0;
+            background: rgba(113, 122, 137, 0.68);
+            box-shadow: none;
+            transition: background .2s ease, color .2s ease;
         }
 
         .storefront-icon:hover {
-            transform: translateY(-1px);
-            color: #eb8111;
-            border-color: rgba(255, 155, 47, 0.24);
-            box-shadow: 0 14px 28px rgba(14, 37, 79, 0.08);
+            color: #fff;
+            background: rgba(137, 146, 162, 0.86);
         }
 
         .storefront-cart-badge {
@@ -184,28 +228,34 @@
         }
 
         .storefront-icon--chevron {
-            width: 48px;
+            width: 56px;
         }
 
         @media (max-width: 980px) {
             .storefront-header__inner {
-                grid-template-columns: minmax(0, 1fr) auto;
-                justify-items: stretch;
-                gap: 18px;
+                flex-wrap: wrap;
+                gap: 12px 18px;
+                padding: 16px 0;
             }
 
             .storefront-brand {
                 min-width: 0;
-                justify-self: start;
             }
 
-            .storefront-search {
-                grid-column: 1 / -1;
-                grid-row: 2;
+            .storefront-nav {
+                order: 5;
+                width: 100%;
+                overflow-x: auto;
+                gap: 22px;
+                scrollbar-width: none;
+            }
+
+            .storefront-nav::-webkit-scrollbar {
+                display: none;
             }
 
             .storefront-actions {
-                justify-self: end;
+                margin-left: 0;
             }
         }
 
@@ -214,65 +264,74 @@
                 position: sticky;
                 top: 0;
                 z-index: 30;
-                box-shadow: 0 8px 18px rgba(14, 37, 79, 0.06);
+                box-shadow: 0 8px 18px rgba(7, 14, 24, 0.22);
             }
 
             .storefront-header__inner {
                 width: min(1400px, calc(100vw - 24px));
                 min-height: auto;
-                gap: 9px 10px;
-                padding: 8px 0 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 12px 0;
             }
 
             .storefront-brand {
-                gap: 10px;
-            }
-
-            .storefront-brand__mark {
-                width: 42px;
-                height: 42px;
-                border-radius: 14px;
-                font-size: 20px;
+                margin-right: auto;
             }
 
             .storefront-brand__text strong {
                 font-size: 19px;
+                letter-spacing: .18em;
             }
 
-            .storefront-brand__text small {
-                margin-top: 4px;
-                font-size: 8px;
-                letter-spacing: .14em;
+            .storefront-spacer,
+            .storefront-call {
+                display: none;
             }
 
-            .storefront-search {
-                grid-column: 1 / -1;
-                grid-row: 2;
-                border-radius: 18px;
-                box-shadow: 0 10px 22px rgba(14, 37, 79, 0.06);
+            .storefront-audience {
+                order: 2;
+                gap: 4px;
+                padding: 3px;
             }
 
-            .storefront-search input {
-                height: 50px;
-                padding: 0 14px;
+            .storefront-audience a {
+                min-width: 84px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .storefront-nav {
+                order: 4;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                width: calc(100% + 24px);
+                margin: 2px -12px 0;
+                padding: 2px 12px;
+                gap: 18px;
+                scrollbar-width: none;
+            }
+
+            .storefront-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .storefront-nav a {
+                min-height: 30px;
+                white-space: nowrap;
                 font-size: 14px;
             }
 
-            .storefront-search button {
-                min-width: 52px;
-                padding: 0 14px;
-            }
-
             .storefront-actions {
+                order: 3;
                 gap: 7px;
-                justify-self: end;
             }
 
             .storefront-icon,
             .storefront-icon--chevron {
-                width: 40px;
-                height: 40px;
-                border-radius: 14px;
+                width: 42px;
+                height: 42px;
                 font-size: 17px;
             }
         }
@@ -290,7 +349,6 @@
             .storefront-icon--chevron {
                 width: 38px;
                 height: 38px;
-                border-radius: 13px;
                 font-size: 16px;
             }
         }
@@ -313,24 +371,28 @@
             </span>
         </a>
 
-        <form class="storefront-search" action="{{ route('home') }}#packages" method="GET" role="search">
-            <input type="search" name="q" value="{{ $searchValue }}" placeholder="Search Starlink kits, mounts, and accessories" aria-label="Search Starlink products">
-            <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
+        <nav class="storefront-nav" aria-label="Primary navigation">
+            @foreach ($siteMenu as $menuItem)
+                <a href="{{ $menuItem['href'] }}">{{ $menuItem['label'] }}</a>
+            @endforeach
+        </nav>
+
+        <div class="storefront-spacer" aria-hidden="true"></div>
+
+        <a class="storefront-call" href="{{ $phoneHref }}" aria-label="Call {{ $phoneNumber }}">
+            <span>Call</span>
+            <strong>{{ $phoneNumber }}</strong>
+        </a>
+
+        <nav class="storefront-audience" aria-label="Audience navigation">
+            @foreach ($audienceTabs as $tab)
+                <a class="{{ $tab['active'] ? 'is-active' : '' }}" href="{{ $tab['href'] }}">{{ $tab['label'] }}</a>
+            @endforeach
+        </nav>
 
         <div class="storefront-actions">
-            <a class="storefront-icon" href="{{ $whatsappHref }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a class="storefront-icon" href="{{ route('shop.cart.index') }}" aria-label="Cart">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="storefront-cart-badge">{{ $cartCount }}</span>
-            </a>
-            <a class="storefront-icon" href="{{ $phoneHref }}" aria-label="Call {{ $phoneNumber }}">
-                <i class="fa-solid fa-phone"></i>
-            </a>
             <a class="storefront-icon storefront-icon--chevron" href="{{ $accountUrl }}" aria-label="Account menu">
-                <i class="fa-solid fa-chevron-down"></i>
+                <i class="fa-solid fa-bars"></i>
             </a>
         </div>
     </div>
